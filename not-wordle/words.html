@@ -11,10 +11,11 @@
     <style>
 
         #board {
-          width: 450px;
+          width: 550px;
           margin:0 auto;
           //border: 1px solid red;
           font-size: 50px;
+          //padding: 10px;
         }
         
         #board div {
@@ -35,31 +36,17 @@
   </head>
   <body class="bg-dark">
     <div id="board">
-      <div class="row1 bg-secondary">
-        A
-      </div>
-      <div class="row1 bg-warning">
-        A
-      </div>
-      <div class="row1 bg-success">
-        A
-      </div> 
-      <div class="row1">
-        A
-      </div>
+      <div class="row1">A</div>
+      <div class="row1">R</div>
+      <div class="row1">G</div> 
+      <div class="row1">U</div>
+      <div class="row1">E</div>
       <!-- ------------------ -->
-      <div class="row2">
-        &nbsp;
-      </div>
-      <div class="row2">
-        &nbsp;
-      </div>
-      <div class="row2">
-        &nbsp;
-      </div> 
-      <div class="row2">
-        &nbsp;
-      </div> 
+      <div class="row2">&nbsp;</div>
+      <div class="row2">&nbsp;</div>
+      <div class="row2">&nbsp;</div> 
+      <div class="row2">&nbsp;</div> 
+      <div class="row2">&nbsp;</div>
     </div>
 	
 
@@ -69,10 +56,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 
     <script>
-        let x = document.getElementsByClassName("row1");
-        for( let i = 0; i < x.length ; i++){
-          gsap.from(x[i], {rotationX: 90, delay: i*1, duration: 1});
-        }
         
         let wordlist = ["about" , "above" , "abuse" , "actor" , "acute" , "admit" , "adopt" , "adult" , 
         "after" , "again" , "agent" , "agree" , "ahead" , "alarm" , "album" , "alert" , "alike" , "alive" , 
@@ -80,15 +63,39 @@
         "apply" , "arena" , "argue" , "arise" , "array" , "aside" , "asset" , "audio" , "audit" , "avoid" , 
         "award" , "aware"];
 
-        let pos = wordlist.indexOf("fowl"); // returns -1 if it's not in the array: excellent
-        console.log(pos);
+        //    y.splice(x,1); 
 
-        let myWord = "array";
-        x = myWord.indexOf("r");
-        if(x >= 0){
-            myWord.splice(x,1); // this does not work
+
+        const target = ["A", "M", "O", "N", "G"];
+  
+        let guess = document.getElementsByClassName("row1");
+        console.log(guess);
+
+        for( let i = 0 ; i < 5; i++){
+          console.log(guess[i].innerHTML);
         }
-        console.log(myWord);
+
+        let x = 0;
+        for( let j = 0 ; j < 5; j++){
+          console.log("guess[", j, "] = ", guess[j]);
+          x = target.indexOf(guess[j].innerHTML);
+          if( x >= 0){
+            if(guess[j].innerHTML == target[j]){
+              // then we turn that letter square green
+              console.log("green");
+              guess[j].setAttribute("class", "bg-success");
+            } else {
+              // then we turn that letter square yellow
+              console.log("yellow");
+            }
+          } else {
+            // x = -1, letter not found in set; turn square grey
+            console.log("grey");
+          }
+        }
+        
+        
+
     </script>
   </body>
 </html>
