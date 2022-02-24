@@ -8,13 +8,20 @@
     <style>
       #body {
         background-color: black;
-        color: white;
+        color: darkslategrey;
         font-family: Arial, Helvetica, sans-serif;
       }
       #duck {
         width: 100px;
         height: 100px;
         border: 3px solid white;
+        display: flex;
+      }
+
+      #duck p {
+        margin: auto;
+        text-align: center;
+        color: white;
       }
     </style>
   </head>
@@ -68,23 +75,28 @@
     <script>
       const b = document.getElementById("body");
       const d = document.getElementById("duck");
-      let theta = 0;
-      console.log(d);
+      let prevMouseX = 90;
+      let prevMouseY = 90;
 
       b.addEventListener("click", move);
 
       function move() {
         let e = window.event;
-        console.log(d);
+        console.log(e.clientX, e.clientY);
+        let deltaY = e.clientY - prevMouseY;
+        let deltaX = e.clientX - prevMouseX;
+        if (deltaX === 0) {
+          deltaX = 0.00001;
+        }
+        let theta = (Math.atan(deltaY / deltaX) * 180) / Math.PI;
 
-        let deltaY = e.clientY - d.clientLeft;
-        let deltaX = e.clientX - d.clientLeft;
-        //let theta = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
-        theta += (Math.atan(deltaY / deltaX) * 180) / Math.PI;
+        prevMouseY = e.clientY;
+        prevMouseX = e.clientX;
 
         console.log(theta);
-        gsap.to(d, { rotation: theta });
-        gsap.to(d, { x: e.clientX - 50, y: e.clientY, delay: 0.5 });
+        gsap.to(d, { rotateZ: "+=" + theta });
+        console.log(d);
+        gsap.to(d, { x: e.clientX, y: e.clientY, delay: 0.5 });
       }
     </script>
   </body>
