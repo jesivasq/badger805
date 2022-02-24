@@ -1,3 +1,11 @@
-body {
-    background-color: black;
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
+
+// look up justify-content: space-around (inside an element with display: flex)
+// look up pseudo-selectors

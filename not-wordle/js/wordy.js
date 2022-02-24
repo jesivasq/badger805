@@ -49,19 +49,19 @@ function ent() {
         console.log(target[i], curRow[i].innerHTML);
         if (curRow[i].innerHTML === target[i]) {
           console.log("match");
-          curRow[i].className = curRow[i].className + " bg-success";
+          curRow[i].className += " bg-success";
           document.getElementById(curRow[i].innerHTML).className =
-            " bg-success";
+            "btn btn-success";
         } else if (target.indexOf(curRow[i].innerHTML) >= 0) {
           console.log("close");
-          curRow[i].className = curRow[i].className + " bg-warning";
+          curRow[i].className += " bg-warning";
           document.getElementById(curRow[i].innerHTML).className =
-            " bg-warning";
+            "btn btn-warning";
         } else {
           console.log("no match");
-          curRow[i].className = curRow[i].className + " bg-secondary";
+          curRow[i].className += " bg-secondary";
           document.getElementById(curRow[i].innerHTML).className =
-            " bg-secondary";
+            "btn btn-secondary";
         }
       }
       // reset pointer to 0

@@ -1,14 +1,19 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 h1 {
   text-align: center;
   border-bottom: 1px solid gray;
   margin: 10px auto;
-  width: 350px;
+  width: 550px;
+  font-weight: 700;
 }
 
 #board {
   width: 260px;
   margin: 0 auto;
-  font-size: 50px;
+  font-size: 2rem;
 }
 
 #board div {
@@ -27,30 +32,29 @@ h1 {
 }
 
 #keyboard {
-  width: 550px;
+  width: 460px;
   margin: 0 auto;
   float: none;
-  padding-left: 105px;
 }
 
 .button-row button {
-  width: 25px;
-  border-radius: 2px;
-  margin: 2px 0px;
+  width: 35px;
+  border-radius: 3px;
+  margin: 1px 0;
 }
 
 #Enter {
-  width: 50px;
-}
-
-#Del {
   width: 70px;
 }
 
+#Del {
+  width: 80px;
+}
+
 #krow2 {
-  padding-left: 35px;
+  padding-left: 55px;
 }
 
 #krow1 {
-  padding-left: 25px;
+  padding-left: 40px;
 }
