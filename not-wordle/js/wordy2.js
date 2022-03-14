@@ -29,14 +29,13 @@ when the user makes a guess,
 */
 
 class Game {
-  gameOver = false;
-  pointer = 0;
-  curRowNum = 0;
+  
   constructor(){
     // global vars for the game
     this.gameOver = false;  // this will be true upon solve or fail
     this.pointer = 0; // this points to the current column of guesses
     this.curRowNum = 0; // this points to the current row of guesses
+    this.guess = [];
 
     // choose a target word
     this.target = [];
@@ -54,6 +53,10 @@ class Game {
     // target word is now loaded into an array named target[]
   }
 
+  changeColor(element, color){
+    // some code here
+  }
+
   insertLetter(letter){
     if(this.pointer >= 0 && this.pointer <= 4 && this.curRowNum < 6 && !this.gameOver){
       this.curRow[this.pointer].innerHTML = letter;
@@ -61,43 +64,116 @@ class Game {
     }
   }
 
-  startGame(){
-    // get a reference to the 5 columns of the current row
-    this.curRow = document.getElementsByClassName("row" + this.curRowNum);
-    console.log(this.curRow);
-    // add a listener to each button in our keyboard
-    this.keyboard = document.getElementsByClassName("letter");
-    console.log("keyboard:", this.keyboard);
-    console.log(typeof this.keyboard)
-    this.btns = Object.values(this.keyboard);
-    this.btns.forEach(btn => {
-      console.log(btn);
-      btn.addEventListener("click", function(){
-        this.insertLetter(btn.id);
-        // this currently doesn't work. it says insertLetter isn't a 
-        // function. It also thinks pointer, curRowNum, and gameOver
-        // are undefined
-      })
-    });
-    
-  }
-
-
-
   deleteLetter() {
-    if (this.pointer > 0 && this.curRowNum < 6 && !gameOver) {
+    if (this.pointer > 0 && this.curRowNum < 6 && !this.gameOver) {
       this.pointer--;
       this.curRow[this.pointer].innerHTML = "&nbsp;";
       console.log("Delete. Pointer is now", this.pointer);
     }
   }
 
+  enterGuess(){
+    // for when the player clicks ENTER
+    console.log("ENTER was clicked");
+    if(this.gameOver){
+      console.log("can't do anything: game over");
+      return false;
+    }
+    if(this.pointer < 5){
+      console.log(this.pointer, "not enough letters");
+      return false;
+    }
+
+    let temp = "";
+    for(let i = 0; i < 5; i++){
+      this.guess[i] = this.curRow[i].innerHTML;
+      temp += this.guess[i];
+    }
+    console.log(this.guess, temp);
+    if(!this.aryOfWords.includes(temp)){
+      console.log("That word is not on the list");
+      return false;
+    }
+
+    if(this.target.join("") === temp){
+      // they win the game
+      this.gameOver = true;
+      console.log("Game Over. You win.");
+      return true;
+    } else if(this.curRowNum > 4) { 
+      // that was their final guess
+      this.gameOver = true;
+      console.log("Game Over. You lost. The word was", this.target.join(""));
+      return false;
+    }
+
+    for(let i = 0; i < 5; i++){
+      if(this.target[i] === this.guess[i]){
+        console.log(i);
+        // turn that letter green
+        this.curRow[i].className = "bg-success";
+        // remove it from temp
+      }
+    }
+
+    // has to be a separate loop for yellow to avoid false positives
+    // on double letters (e.g. if the target is FREES and the player
+    // guesses GEESE, only one E turns green and only one E turns yellow)
+    for(let i = 0; i < 5; i++){
+      if(this.target.join("").includes(this.guess[i])){
+        // turn that letter yellow
+        // remove it from temp
+      }
+    }
+
+    // re/set the global counters for the next row
+    this.pointer = 0;
+    this.curRowNum++;
+    this.curRow = document.getElementsByClassName("row" + this.curRowNum);
+  }
+
+
+  startGame(){
+    // get a reference to the 5 columns of the current row
+    this.curRow = document.getElementsByClassName("row" + this.curRowNum);
+    //console.log(typeof this.curRow);
+    // add a listener to each button in our keyboard
+    this.keyboard = document.getElementsByClassName("letter");
+    //console.log("keyboard:", this.keyboard);
+    //console.log(typeof this.keyboard)
+    this.btns = Object.values(this.keyboard);
+    this.btns.forEach(btn => {
+      //console.log(btn);
+      // okay, this is where it gets weird. <self = this> makes it work.
+      // why? I don't know. I saw it in the first example here:
+      // https://www.toptal.com/javascript/10-most-common-javascript-mistakes
+      let self = this;
+      btn.addEventListener("click", (self) => {
+        //console.log(this.pointer, this.curRowNum, this.gameOver);
+        this.insertLetter(btn.id);
+      });
+    });  
+    document.getElementById("ENTER").addEventListener("click", () => {
+      this.enterGuess();
+    });
+    document.getElementById("DELETE").addEventListener("click", () => {
+      this.deleteLetter();
+    })
+  }
+
+
+
+
 }
 
-let game = new Game();
-console.log(game);
-console.log(game.target);
-console.log(game.pointer);
-game.startGame();
+let game;
+window.onload = function(){
+  game = new Game();
+  game.startGame();
+}
 
-game.insertLetter("A");
+//console.log(game);
+//console.log(game.target);
+//console.log(game.pointer);
+
+
