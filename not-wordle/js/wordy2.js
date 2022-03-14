@@ -29,6 +29,9 @@ when the user makes a guess,
 */
 
 class Game {
+  gameOver = false;
+  pointer = 0;
+  curRowNum = 0;
   constructor(){
     // global vars for the game
     this.gameOver = false;  // this will be true upon solve or fail
@@ -71,7 +74,9 @@ class Game {
       console.log(btn);
       btn.addEventListener("click", function(){
         this.insertLetter(btn.id);
-        // this currently doesn't work. it says insertLetter isn't a function
+        // this currently doesn't work. it says insertLetter isn't a 
+        // function. It also thinks pointer, curRowNum, and gameOver
+        // are undefined
       })
     });
     
