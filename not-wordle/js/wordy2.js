@@ -25,6 +25,15 @@ class Game {
 
     gsap.registerPlugin(CustomEase, CustomWiggle);
     CustomWiggle.create("myWiggle", { wiggles: 6 });
+
+    // the following throws an error:
+    //this.myModal = new bootstrap.Modal(document.getElementById("solutionModal"), {keyboard: true});
+    //console.log(this.myModal);
+
+    // the following results in null:
+    var myModalEl = document.getElementById("solutionModal");
+    var modal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
+    console.log(modal); // null
   }
 
   changeColor(element, colorClass){
