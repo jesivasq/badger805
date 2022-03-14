@@ -17,12 +17,13 @@ console.log(target);
 let curRowNum = 0;
 let curRow = document.getElementsByClassName("row" + curRowNum);
 let pointer = 0;
+let gameOver = false;
 
 gsap.registerPlugin(CustomEase, CustomWiggle);
 CustomWiggle.create("myWiggle", { wiggles: 6 });
 
 function insertLetter(letter) {
-  if (pointer < 5 && pointer >= 0 && curRowNum < 6) {
+  if (pointer < 5 && pointer >= 0 && curRowNum < 6 && !gameOver) {
     curRow[pointer].innerHTML = letter;
     pointer++;
   }
@@ -84,6 +85,7 @@ function ent() {
       } else {
         // add gsap staggered raise of row elements
         console.log("final guess was correct");
+        gameOver = true;
       }
     } else {
       console.log("That word is not on the list");
