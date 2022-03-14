@@ -53,7 +53,7 @@ class Game {
     // target word is now loaded into an array named target[]
   }
 
-  changeColor(element, color){
+  changeColor(element, colorClass){
     // some code here
   }
 
@@ -87,7 +87,7 @@ class Game {
     let temp = "";
     for(let i = 0; i < 5; i++){
       this.guess[i] = this.curRow[i].innerHTML;
-      temp += this.guess[i];
+      temp += this.target[i];
     }
     console.log(this.guess, temp);
     if(!this.aryOfWords.includes(temp)){
@@ -95,10 +95,20 @@ class Game {
       return false;
     }
 
-    if(this.target.join("") === temp){
+    if(this.target.join("") === this.guess.join("")){
       // they win the game
       this.gameOver = true;
       console.log("Game Over. You win.");
+      // turn all the letters green
+      
+      for(let i = 0; i < 5; i++){
+        this.curRow[i].classList.add("bg-success");
+        let curDiv = document.getElementById(this.curRow[i].innerHTML);
+        curDiv.classList.add("btn-success");
+        curDiv.classList.remove("btn-light");
+        curDiv.classList.remove("btn-warning");
+      }
+      // stagger deltaY
       return true;
     } else if(this.curRowNum > 4) { 
       // that was their final guess
@@ -106,13 +116,20 @@ class Game {
       console.log("Game Over. You lost. The word was", this.target.join(""));
       return false;
     }
-
+    console.log("curRow:", this.curRow);
     for(let i = 0; i < 5; i++){
       if(this.target[i] === this.guess[i]){
         console.log(i);
         // turn that letter green
-        this.curRow[i].className = "bg-success";
+       // this.curRow[i].className += "bg-success";
+       this.curRow[i].classList.add("bg-success");
+       let curDiv = document.getElementById(this.target[i]);
+       curDiv.classList.remove("btn-light");
+       curDiv.classList.remove("btn-warning");
+       curDiv.classList.add("btn-success");
         // remove it from temp
+        temp = temp.replace(this.guess[i], "");
+        console.log(temp);
       }
     }
 
@@ -120,9 +137,27 @@ class Game {
     // on double letters (e.g. if the target is FREES and the player
     // guesses GEESE, only one E turns green and only one E turns yellow)
     for(let i = 0; i < 5; i++){
-      if(this.target.join("").includes(this.guess[i])){
+      console.log("temp:", temp, "guess[i]:", this.guess[i]);
+      if(temp.includes(this.guess[i])){
+        console.log(this.guess[i]);
         // turn that letter yellow
+        this.curRow[i].classList.add("bg-warning");
+        let curDiv = document.getElementById(this.guess[i]);
+        curDiv.classList.remove("btn-light");
+        curDiv.classList.remove("btn-success");
+        curDiv.classList.add("btn-warning");
         // remove it from temp
+        temp = temp.replace(this.guess[i], "");
+        console.log(temp);
+      } else {
+        this.curRow[i].classList.add("bg-secondary");
+        let curDiv = document.getElementById(this.guess[i]);
+        curDiv.classList.remove("btn-light");
+        //curDiv.classList.remove("btn-success");
+        //curDiv.classList.remove("btn-warning");
+        curDiv.classList.add("btn-secondary");
+        // remove it from temp
+        temp = temp.replace(this.guess[i], "");
       }
     }
 
